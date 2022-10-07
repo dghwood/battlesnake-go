@@ -10,7 +10,7 @@ import (
 )
 
 type Server struct {
-	snake snake.Snake
+	snake snake.SnakeInterface
 }
 
 func (s *Server) HandleIndex(w http.ResponseWriter, r *http.Request) {
@@ -68,7 +68,7 @@ func (s *Server) HandleEnd(w http.ResponseWriter, r *http.Request) {
 }
 
 // Start Battlesnake Server
-func RunServer(snek snake.Snake) {
+func RunServer(snek snake.SnakeInterface) {
 	port := os.Getenv("PORT")
 	if len(port) == 0 {
 		port = "8000"
