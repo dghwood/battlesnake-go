@@ -1,6 +1,7 @@
 package snake
 
 import (
+	board "github.com/dghwood/battlesnake-go/board"
 	models "github.com/dghwood/battlesnake-go/models"
 )
 
@@ -12,7 +13,13 @@ func (s Snake) Start(state models.GameState) {
 
 }
 func (s Snake) Move(state models.GameState) models.BattlesnakeMoveResponse {
-	return models.BattlesnakeMoveResponse{Move: "up"}
+	gameBoard := board.ParseState(state)
+	you := state.You
+	moves := gameBoard.AvaiableMoves(you.Head)
+
+	// calc available moves
+
+	return models.BattlesnakeMoveResponse{Move: board.PosToMove(moves[0], you.Head)}
 }
 
 func (s Snake) End(state models.GameState) {
