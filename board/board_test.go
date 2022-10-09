@@ -39,8 +39,8 @@ func TestParseBoard(t *testing.T) {
 	if !board.Squares[10][5].HasFood {
 		t.Error("No food at 10, 5")
 	}
-	if !board.Squares[1][1].HasSnake {
-		t.Error("No Snake at 1,1")
+	if board.Squares[1][1].BlockedTurns != 3 {
+		t.Error("No Snake at 1,1", board.Squares[1][1].BlockedTurns)
 	}
 	if board.Squares[1][1].SnakeHeadLength != 3 {
 		t.Error("No Snake Head Length 3 at 1,1")
@@ -53,6 +53,6 @@ func TestAvailableMoves(t *testing.T) {
 	moves := board.AvaiableMoves(models.Coord{X: 1, Y: 1})
 	// {1 0} {2 1} {1 2}
 	if len(moves) != 3 {
-		t.Error("AvailableMoves returned <> 3 moves")
+		t.Error("AvailableMoves returned <> 3 moves", moves)
 	}
 }

@@ -16,7 +16,12 @@ func (s Snake) Move(state models.GameState) models.BattlesnakeMoveResponse {
 	gameBoard := board.ParseState(state)
 	you := state.You
 	moves := gameBoard.AvaiableMoves(you.Head)
-
+	// No moves left
+	if len(moves) == 0 {
+		return models.BattlesnakeMoveResponse{
+			Move: "no_moves",
+		}
+	}
 	// calc available moves
 
 	return models.BattlesnakeMoveResponse{Move: board.PosToMove(moves[0], you.Head)}

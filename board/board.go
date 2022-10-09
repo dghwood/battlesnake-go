@@ -7,7 +7,7 @@ import (
 type Square struct {
 	HasFood         bool
 	HasHazard       bool
-	HasSnake        bool
+	BlockedTurns    int
 	SnakeHeadLength int
 }
 
@@ -46,8 +46,9 @@ func ParseState(state models.GameState) Board {
 
 	// Add Snake
 	for _, snake := range state.Board.Snakes {
-		for _, coord := range snake.Body {
-			board[coord.X][coord.Y].HasSnake = true
+		for i := snake.Length - 1; i >= 0; i-- {
+			coord := snake.Body[i]
+			board[coord.X][coord.Y].BlockedTurns = snake.Length - i
 		}
 		// Add Snake Head & L
 		board[snake.Head.X][snake.Head.Y].SnakeHeadLength = snake.Length
@@ -70,7 +71,7 @@ func (b *Board) AvaiableMoves(pos models.Coord) []models.Coord {
 	availableMoves := make([]models.Coord, 0)
 	for _, coord := range moves {
 		err, sq := b.GetSquare(coord)
-		if !err && !sq.HasSnake {
+		if !err && sq.BlockedTurns <= 1 {
 			availableMoves = append(availableMoves, coord)
 		}
 	}
